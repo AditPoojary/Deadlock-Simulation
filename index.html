@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>Deadlock Detection Simulator</title><link rel="stylesheet" href="style.css" /></head>
+<body>
+  <canvas id="scene"></canvas>
+  <header><div><h1>DEADLOCK DETECTION <span>SIMULATOR</span></h1><p>Tarjan SCC • Wait-For Graph Analysis</p></div><div class="status" id="status">● ANALYSIS READY</div></header>
+  <aside class="panel left"><div class="eyebrow">GRAPH CONTROL</div><h2>Process Management</h2>
+    <div class="row"><input id="processName" maxlength="12" placeholder="Process name e.g. P7"/><button id="addProcess">+ Add Process</button></div>
+    <button id="removeProcess" class="ghost">Remove Selected Process</button><hr>
+    <label>FROM<select id="from"></select></label><label>TO<select id="to"></select></label>
+    <button id="addEdge">+ Add Dependency</button><button id="removeEdge" class="ghost">Remove Dependency</button><button id="clearGraph" class="danger">Clear Graph</button><hr>
+    <label>SCENARIO<select id="scenario"><option value="no">No Deadlock</option><option value="simple">Simple Deadlock</option><option value="three" selected>Three Process Deadlock</option><option value="multiple">Multiple Deadlocks</option><option value="self">Self Loop</option><option value="complex">Complex System</option></select></label><button id="loadScenario">Load Scenario</button>
+    <p class="hint">A wait-for edge <b>P1 → P2</b> means P1 waits for a resource held by P2.</p>
+  </aside>
+  <aside class="panel right"><div class="eyebrow">SYSTEM ANALYSIS</div><h2>Network State</h2><div class="metrics" id="metrics"></div><div id="groups" class="groups"></div><hr><div id="nodeInfo"><div class="eyebrow">PROCESS INSPECTOR</div><p>Select a 3D process core to inspect its Tarjan state.</p></div></aside>
+  <section class="controls"><div class="eyebrow">TARJAN EXECUTION</div><div class="control-buttons"><button id="run">Run Detection</button><button id="step">Step-by-Step</button><button id="prev" class="ghost">‹ Previous</button><button id="next" class="ghost">Next ›</button><button id="auto" class="ghost">Auto Play</button><button id="reset" class="ghost">Reset</button></div><div id="stepInfo">Ready — generate a trace or load a scenario.</div></section>
+  <section class="log"><div class="log-title">TARJAN EXECUTION LOG <span id="logCount"></span></div><div id="log"></div></section>
+  <div class="view-controls"><button id="resetCam">Reset Camera</button><button id="topCam">Top View</button><button id="frontCam">Front View</button><button id="gridToggle">Grid</button><button id="labelsToggle">Labels</button></div>
+  <details class="learn"><summary>HOW IT WORKS &nbsp; / &nbsp; RESEARCH BASIS</summary><p><b>Deadlock:</b> processes permanently wait on resources held by one another. This visualizer models a <b>Wait-For Graph</b>: P1 → P2 means P1 waits for P2. Tarjan's DFS uses discovery indices, low-link values, and a stack to find strongly connected components (SCCs). SCCs with more than one member (or a self-loop) are deadlock groups under these modeled assumptions.</p><p><b>Complexity:</b> O(V + E) time, O(V) space. Educational simulation inspired by <i>"An Enhanced Deadlock Detection Methodology Using Tarjan's Algorithm"</i>, IEEE CSITSS 2024, DOI: 10.1109/CSITSS64042.2024.10816916; it is not an exact reproduction of the authors' implementation.</p></details>
+  <div id="toast"></div>
+  <script src="vendor/three/build/three.global.js"></script>
+  <script src="vendor/three/examples/jsm/controls/OrbitControls.global.js"></script>
+  <script src="script.js"></script>
+</body></html>
